@@ -2,14 +2,22 @@ module Songkick
   module OAuth2
     module Model
 
-      class Authorization < ActiveRecord::Base
-        self.table_name = :oauth2_authorizations
+      class Authorization
+        include MongoMapper::Document
+        key :oauth2_resource_owner_type,  String
+        key :oauth2_resource_owner_id,    String
+        key :client_id,                   String
+        key :scope,                       String
+        key :code,                        String
+        key :access_token_hash,           String
+        key :refresh_token_hash,          String
+        key :expires_at,                  Time
 
         belongs_to :oauth2_resource_owner, :polymorphic => true
         alias :owner  :oauth2_resource_owner
         alias :owner= :oauth2_resource_owner=
 
-        belongs_to :client, :class_name => 'Songkick::OAuth2::Model::Client'
+        belongs_to :client, :class_name => Songkick::OAuth2::Model::Client.name
 
         validates_presence_of :client, :owner
 
@@ -53,11 +61,13 @@ module Songkick
             raise ArgumentError, "The argument should be a #{Client}, instead it was a #{client.class}"
           end
 
-          instance = owner.oauth2_authorization_for(client) ||
-                     new do |authorization|
-                       authorization.owner  = owner
-                       authorization.client = client
-                     end
+          instance = owner.oauth2_authorization_for(client) 
+          
+          if !instance
+            instance = new
+            instance.owner = owner
+            instance.client = client  
+          end
 
           case attributes[:response_type]
             when CODE
@@ -81,6 +91,10 @@ module Songkick
           scopes += attributes[:scope].split(/\s+/) if attributes[:scope]
           instance.scope = scopes.empty? ? nil : scopes.entries.join(' ')
 
+          if instance.save
+            instance.owner.oauth2_authorizations += [instance]
+            instance.owner.save
+          end
           instance.save && instance
 
         rescue Object => error

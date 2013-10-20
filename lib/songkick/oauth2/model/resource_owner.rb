@@ -4,10 +4,11 @@ module Songkick
 
       module ResourceOwner
         def self.included(klass)
-          klass.has_many :oauth2_authorizations,
-                         :class_name => Authorization.name,
+          klass.many :oauth2_authorizations,
+                         :class_name => Songkick::OAuth2::Model::Authorization.name,
                          :as => :oauth2_resource_owner,
-                         :dependent => :destroy
+                         :dependent => :destroy,
+                         :polymorphic => true
         end
 
         def grant_access!(client, options = {})
@@ -15,7 +16,7 @@ module Songkick
         end
 
         def oauth2_authorization_for(client)
-          oauth2_authorizations.find_by_client_id(client.id)
+          oauth2_authorizations.find_by_client_id(client.id.to_s)
         end
       end
 

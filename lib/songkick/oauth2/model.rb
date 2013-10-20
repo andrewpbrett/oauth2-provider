@@ -1,4 +1,4 @@
-require 'active_record'
+# require 'active_record'
 
 module Songkick
   module OAuth2
@@ -24,8 +24,8 @@ module Songkick
       # Rails 2. If you're running a different adapter, add a suitable regex to
       # the list:
       #
-      #     Songkick::OAuth2::Model::DUPLICATE_RECORD_ERRORS << /DB2 found a dup/
-      #
+      Songkick::OAuth2::Model::DUPLICATE_RECORD_ERRORS << /duplicate key/
+      
       def self.duplicate_record_error?(error)
         error.class.name == 'ActiveRecord::RecordNotUnique' or
         DUPLICATE_RECORD_ERRORS.any? { |re| re =~ error.message }

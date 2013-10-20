@@ -21,14 +21,10 @@ module Songkick
           @transport_error = transport_error
 
           validate!
-
           return unless @owner and not @error
-
           @model = @owner.oauth2_authorization_for(@client)
           return unless @model and @model.in_scope?(scopes) and not @model.expired?
-
           @authorized = true
-
           if @params[RESPONSE_TYPE] =~ /code/
             @code = @model.generate_code
           end
@@ -97,7 +93,7 @@ module Songkick
 
           elsif @params[RESPONSE_TYPE] == TOKEN
             fragment = to_query_string(ACCESS_TOKEN, EXPIRES_IN, SCOPE, STATE)
-            "#{ base_redirect_uri }##{ fragment }"
+            "#{ base_redirect_uri }?#{ fragment }"
 
           else
             query = to_query_string(CODE, SCOPE, STATE)

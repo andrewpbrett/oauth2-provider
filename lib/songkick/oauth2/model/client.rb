@@ -2,20 +2,29 @@ module Songkick
   module OAuth2
     module Model
 
-      class Client < ActiveRecord::Base
-        self.table_name = :oauth2_clients
+      class Client
+        include MongoMapper::Document
+        key :oauth2_client_owner_type,  String
+        key :oauth2_client_owner_id,    Integer
+        key :name,                      String
+        key :client_id,                 String
+        key :client_secret_hash,        String
+        key :redirect_uri,              String
 
         belongs_to :oauth2_client_owner, :polymorphic => true
         alias :owner  :oauth2_client_owner
         alias :owner= :oauth2_client_owner=
 
-        has_many :authorizations, :class_name => 'Songkick::OAuth2::Model::Authorization', :dependent => :destroy
+        #many :authorizations, :class_name => Songkick::OAuth2::Model::Authorization.name, :dependent => :destroy
+        def authorizations
+          Songkick::OAuth2::Model::Authorization.where(:client_id => self.id.to_s)
+        end
 
         validates_uniqueness_of :client_id, :name
         validates_presence_of   :name, :redirect_uri
         validate :check_format_of_redirect_uri
 
-        attr_accessible :name, :redirect_uri
+        attr_accessible :name, :redirect_uri, :authorizations
 
         before_create :generate_credentials
 

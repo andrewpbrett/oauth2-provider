@@ -208,7 +208,7 @@ module Songkick
 
           if @authorization and @authorization.expired?
             @error = INVALID_GRANT
-            @error_description = 'The access grant you supplied is invalid'
+            @error_description = 'The access grant you supplied is expired'
           end
         end
       end
