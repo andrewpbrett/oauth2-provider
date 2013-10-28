@@ -15,10 +15,10 @@ module Songkick
         alias :owner  :oauth2_client_owner
         alias :owner= :oauth2_client_owner=
 
-        #many :authorizations, :class_name => Songkick::OAuth2::Model::Authorization.name, :dependent => :destroy
-        def authorizations
-          Songkick::OAuth2::Model::Authorization.where(:client_id => self.id.to_s)
-        end
+        many :authorizations, :class_name => Songkick::OAuth2::Model::Authorization.name, :dependent => :destroy
+        # def authorizations
+        #   Songkick::OAuth2::Model::Authorization.where(:client_id => self.id.to_s)
+        # end
 
         validates_uniqueness_of :client_id, :name
         validates_presence_of   :name, :redirect_uri

@@ -4,7 +4,7 @@ module Songkick
 
       module ResourceOwner
         def self.included(klass)
-          klass.many :oauth2_authorizations,
+          klass.has_many :oauth2_authorizations,
                          :class_name => Songkick::OAuth2::Model::Authorization.name,
                          :as => :oauth2_resource_owner,
                          :dependent => :destroy,
