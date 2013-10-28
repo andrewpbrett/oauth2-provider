@@ -24,7 +24,7 @@ module Songkick
         validates_presence_of   :name, :redirect_uri
         validate :check_format_of_redirect_uri
 
-        attr_accessible :name, :redirect_uri, :authorizations
+        # attr_accessible :name, :redirect_uri, :authorizations
 
         before_create :generate_credentials
 
