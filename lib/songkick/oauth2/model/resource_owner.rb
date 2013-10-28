@@ -15,7 +15,7 @@ module Songkick
         end
 
         def oauth2_authorization_for(client)
-          oauth2_authorizations.find_by_client_id(client.id.to_s)
+          oauth2_authorizations.where(:client_id => client.id.to_s).first
         end
       end
 
