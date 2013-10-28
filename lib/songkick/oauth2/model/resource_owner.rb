@@ -7,8 +7,7 @@ module Songkick
           klass.has_many :oauth2_authorizations,
                          :class_name => Songkick::OAuth2::Model::Authorization.name,
                          :as => :oauth2_resource_owner,
-                         :dependent => :destroy,
-                         :polymorphic => true
+                         :dependent => :destroy
         end
 
         def grant_access!(client, options = {})
