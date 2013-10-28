@@ -4,12 +4,12 @@ module Songkick
 
       class Client
         include Mongoid::Document
-        key :oauth2_client_owner_type,  String
-        key :oauth2_client_owner_id,    Integer
-        key :name,                      String
-        key :client_id,                 String
-        key :client_secret_hash,        String
-        key :redirect_uri,              String
+        field :oauth2_client_owner_type,  String
+        field :oauth2_client_owner_id,    Integer
+        field :name,                      String
+        field :client_id,                 String
+        field :client_secret_hash,        String
+        field :redirect_uri,              String
 
         belongs_to :oauth2_client_owner, :polymorphic => true
         alias :owner  :oauth2_client_owner

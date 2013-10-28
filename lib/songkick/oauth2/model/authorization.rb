@@ -4,14 +4,14 @@ module Songkick
 
       class Authorization
         include Mongoid::Document
-        key :oauth2_resource_owner_type,  String
-        key :oauth2_resource_owner_id,    String
-        key :client_id,                   String
-        key :scope,                       String
-        key :code,                        String
-        key :access_token_hash,           String
-        key :refresh_token_hash,          String
-        key :expires_at,                  Time
+        field :oauth2_resource_owner_type,  String
+        field :oauth2_resource_owner_id,    String
+        field :client_id,                   String
+        field :scope,                       String
+        field :code,                        String
+        field :access_token_hash,           String
+        field :refresh_token_hash,          String
+        field :expires_at,                  Time
 
         belongs_to :oauth2_resource_owner, :polymorphic => true
         alias :owner  :oauth2_resource_owner
