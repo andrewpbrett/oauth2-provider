@@ -3,7 +3,7 @@ module Songkick
     module Model
 
       class Authorization
-        include MongoMapper::Document
+        include Mongoid::Document
         key :oauth2_resource_owner_type,  String
         key :oauth2_resource_owner_id,    String
         key :client_id,                   String

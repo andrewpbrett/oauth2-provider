@@ -3,7 +3,7 @@ module Songkick
     module Model
 
       class Client
-        include MongoMapper::Document
+        include Mongoid::Document
         key :oauth2_client_owner_type,  String
         key :oauth2_client_owner_id,    Integer
         key :name,                      String
