@@ -11,7 +11,7 @@ module Songkick
         field :client_secret_hash
         field :redirect_uri
 
-        belongs_to :oauth2_client_owner
+        belongs_to :oauth2_client_owner, :polymorphic => true
         alias :owner  :oauth2_client_owner
         alias :owner= :oauth2_client_owner=
 
