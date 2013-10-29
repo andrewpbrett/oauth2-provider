@@ -13,7 +13,7 @@ module Songkick
         field :refresh_token_hash
         field :expires_at, :type => Time
 
-        belongs_to :oauth2_resource_owner, :polymorphic => true
+        belongs_to :oauth2_resource_owner
         alias :owner  :oauth2_resource_owner
         alias :owner= :oauth2_resource_owner=
 
